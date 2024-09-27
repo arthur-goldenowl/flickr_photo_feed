@@ -1,2 +1,22 @@
-<h1>StaticPages#home</h1>
-<p>Find me in app/views/static_pages/home.html.erb</p>
+<%= form_with url: root_path, method: :get, local: true do %>
+  <%= label_tag :flickr_id, "Enter Flickr ID:" %>
+  <%= text_field_tag :flickr_id, params[:flickr_id] %>
+  <br>
+  <%= submit_tag "View Photos" %>
+  <br><br>
+  <%= link_to "Use Default User", root_path(flickr_id: Rails.application.credentials.flickr[:account_id]), method: :get %>
+<% end %>
+
+
+
+<% if @photos.present? %>
+  <h2>Photos from Flickr:</h2>
+  <% @photos.each do |photo| %>
+    <div class="photo">
+      <a href="<%= photo.url %>" target="_blank">
+        <img src="<%= photo.url %>" alt="<%= photo.title %>"></img>
+      </a>
+      <p><strong>Title:</strong> <%= photo.title %></p>
+    </div>
+  <% end %>
+<% end %>
